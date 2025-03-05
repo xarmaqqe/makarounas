@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Marks Challenge</title>
+    <style>
+        /* Общие стили для темной темы */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            animation: fadeIn 2s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 10px;
+            background: #1e1e1e;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            animation: slideUp 1.5s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            animation: glowText 1.5s ease-out infinite alternate;
+        }
+
+        @keyframes glowText {
+            0% { text-shadow: 0 0 10px #28a745, 0 0 20px #28a745, 0 0 30px #28a745; }
+            100% { text-shadow: 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff; }
+        }
+
+        /* Стиль для кнопок */
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .shadow__btn {
+            padding: 15px 30px;
+            border: none;
+            font-size: 1.2rem;
+            color: #fff;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .green-btn {
+            background: #28a745;
+            box-shadow: 0 0 25px #28a745;
+        }
+
+        .green-btn:hover {
+            box-shadow: 0 0 5px #28a745, 0 0 25px #28a745, 0 0 50px #28a745;
+            transform: scale(1.1);
+        }
+
+        .red-btn {
+            background: #dc3545;
+            box-shadow: 0 0 25px #dc3545;
+        }
+
+        .red-btn:hover {
+            box-shadow: 0 0 5px #dc3545, 0 0 25px #dc3545, 0 0 50px #dc3545;
+            transform: scale(1.1);
+        }
+
+        /* Стили для окна с сообщением */
+        .message {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            background-color: #2a2a2a;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            font-size: 1.5rem;
+            color: #28a745;
+            text-align: center;
+            animation: popin 1s ease-out forwards;
+        }
+
+        @keyframes popin {
+            0% { opacity: 0; transform: translate(-50%, -60%) scale(0.8); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .message h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .message p {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        /* Рейтинг (звезды) */
+        .rating {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 40px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .rating label:before {
+            content: '\2605';
+        }
+
+        /* Плавное изменение цвета и размера при клике или наведении */
+        .rating input:checked ~ label,
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #6f00ff;
+            transform: scale(1.3);
+        }
+
+        /* Анимация для кнопок */
+        @keyframes buttonGlow {
+            0% { box-shadow: 0 0 10px #28a745; }
+            100% { box-shadow: 0 0 30px #28a745; }
+        }
+
+        .green-btn:active {
+            animation: buttonGlow 0.2s ease-out forwards;
+        }
+
+        .red-btn:active {
+            animation: buttonGlow 0.2s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Can you give me 100 marks?</h1>
+        <div class="buttons">
+            <!-- Зеленая кнопка -->
+            <button class="shadow__btn green-btn" id="greenBtn">Yes</button>
+            <!-- Красная кнопка -->
+            <button class="shadow__btn red-btn" id="redBtn">No</button>
+        </div>
+        <!-- Окно с сообщением -->
+        <div class="message" id="message">
+            <h2>Thank you mister!</h2>
+            <p>How would you rate this site?</p>
+            <!-- Новый рейтинг (звезды инвертированы) -->
+            <div class="rating">
+                <input value="1" name="rating" id="star1" type="radio">
+                <label for="star1"></label>
+                <input value="2" name="rating" id="star2" type="radio">
+                <label for="star2"></label>
+                <input value="3" name="rating" id="star3" type="radio">
+                <label for="star3"></label>
+                <input value="4" name="rating" id="star4" type="radio">
+                <label for="star4"></label>
+                <input value="5" name="rating" id="star5" type="radio">
+                <label for="star5"></label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const greenBtn = document.getElementById('greenBtn');
+        const redBtn = document.getElementById('redBtn');
+        const message = document.getElementById('message');
+        
+        let greenSize = 50; // начальный размер зеленой кнопки
+        let redSize = 50; // начальный размер красной кнопки
+
+        redBtn.addEventListener('click', () => {
+            // Уменьшаем размер красной кнопки и увеличиваем зеленую
+            if (redSize > 10) { // минимальный размер красной кнопки
+                redSize -= 5;
+                greenSize += 5;
+
+                redBtn.style.transform = `scale(${redSize / 50})`;
+                greenBtn.style.transform = `scale(${greenSize / 50})`;
+            } else {
+                redBtn.style.display = 'none'; // Красная кнопка исчезает, когда ее размер становится очень маленьким
+            }
+
+            // Когда зеленая кнопка достигнет 100%, красная кнопка будет оставаться видимой
+            if (greenSize >= 100) {
+                greenBtn.style.transform = 'scale(2)'; // увеличиваем зеленую кнопку до заполнения экрана
+            }
+        });
+
+        greenBtn.addEventListener('click', () => {
+            // Показываем сообщение с анимацией, когда нажимается зеленая кнопка
+            message.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
